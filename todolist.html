@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <title>Todolist</title>
+  </head>
+  <body>
+    <h1>ToDoリスト</h1>
+    <ul>
+      <!-- todos -->
+    </ul>
+    <form action="/create" method="post">
+      <input type="text" name="title" />
+      <button type="submit">追加</button>
+    </form>
+    <script src="/script.js"></script>
+    <h2>日付をクリックして予定を追加する日を選択</h2>
+    <table class="calendar">
+        <thead>
+          <tr>
+            <th class="sun">Sun</th>
+            <th>Mon</th>
+            <th>Tue</th>
+            <th>Wed</th>
+            <th>Thu</th>
+            <th>Fri</th>
+            <th class="sat">Sat</th>
+          </tr>
+        </thead>
+        <tbody id="datelist"></tbody>
+        <p id="selected-day">予定を追加する日を選んでください。</p>
+        <input id="todo-input" />
+        <button id="add-button" disabled>追加</button>
+    </table>
+    <script>
+        const today = new Date();
+        const year = today.getFullYear();
+        const month = today.getMonth();
+        const day = today.getDate();
+        const startDay = new Date(year, month, 1).getDay();
+        const startDate = new Date(year, month, 1);
+        const endDate = new Date(year, month + 1, 0);
+        const ndays = (endDate - startDate)/(24*3600*1000) + 1;
+        const date = document.getElementById("datelist");
+        const seleday = document.getElementById("selected-day");
+        let s = "";
+
+        for (let i = 1;i <= ndays;) {
+            const week = document.createElement("tr");
+            for (let counter = 0; counter < 7;counter += 1){
+                if(i === 1){
+                    for (let j = 0; j< startDay; j+=1){
+                        const none = document.createElement("td");
+                        none.className = 'mute';
+                        none.textContent = '';
+                        if(counter === 0){
+                            none.className = 'sun';
+                        }
+                        week.appendChild(none);
+                        counter += 1;
+                    }
+                }
+                if(ndays < i){
+                    while(counter < 7){
+                        const none = document.createElement("td");
+                        none.className = 'mute';
+                        none.textContent = '';
+                        week.appendChild(none);
+                        counter += 1;
+                    }
+                    break;
+                }
+                const some = document.createElement("td");
+                if(counter === 0){
+                    some.className = 'sun';
+                } else if(counter === 6){
+                    some.className = 'sat';
+                }
+                if(i === day){
+                    some.className = 'toDAY';
+                }
+                some.textContent = `${i}`;
+                const insome = document.createElement("ul");
+                some.appendChild(insome);
+                some.id = `${i}`;
+                some.onclick = ()=>{
+                    seleday.textContent = `${month + 1}月${some.id}日に予定を追加します。`;
+                    s = some.id;
+                };
+                week.appendChild(some);
+                i += 1;
+
+            }
+            date.appendChild(week);
+        }
+        const container = {};
+
+const todoInput = document.getElementById("todo-input");
+const addButton = document.getElementById("add-button");
+
+todoInput.oninput = () => {
+  addButton.disabled = (todoInput.value === "" || s === "");
+};
+
+addButton.onclick = () => {
+    const todoList = document.getElementById(s);
+    const todoItem = document.createElement("li");
+    const todoText = document.createElement("span");
+    const editButton = document.createElement("button");
+    const deleteButton = document.createElement("button");
+    todoText.textContent = todoInput.value;
+    todoInput.value = "";
+    editButton.textContent = "編集";
+    editButton.onclick = () => {
+        const input = prompt("新しい内容を入力してください。");
+        if (input !== "" && input !== null) todoText.textContent = input;
+    };
+    deleteButton.textContent = "削除";
+    deleteButton.onclick = () => {
+        todoList.removeChild(todoItem);
+    };
+    todoItem.appendChild(todoText);
+    todoItem.appendChild(editButton);
+    todoItem.appendChild(deleteButton);
+    todoList.appendChild(todoItem);
+};
+    </script>
+    <style>
+        .calendar {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .calendar th,
+        .calendar td {
+            border: 1px solid #000;
+            text-align: center;
+            padding: 10px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        .calendar th {
+            padding: 6px 10px;
+        }
+        .calendar .sun {
+            color: #e17f7e;
+            background-color: #f8e4e2;
+        }
+        .calendar .sat {
+            color: #7ab6f3;
+            background-color: #e7f6fd;
+        }
+        .calendar .mute {
+            color: #aaa;
+        }
+        .calendar .toDAY {
+            background-color: #7d7d7d;
+        }
+    </style>
+  </body>
+</html>

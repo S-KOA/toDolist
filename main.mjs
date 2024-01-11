@@ -8,7 +8,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static("static"));
 const prisma = new PrismaClient();
 
-const template = fs.readFileSync("./template.html", "utf-8");
+const template = fs.readFileSync("./todolist.html", "utf-8");
 app.get("/", async (request, response) => {
   const todos = await prisma.todo.findMany();
   const html = template.replace(
@@ -32,7 +32,7 @@ app.get("/", async (request, response) => {
 
 app.post("/create", async (request, response) => {
   await prisma.todo.create({
-    data: { title: request.body.title },
+    data: { title: request.body.title,date :0},
   });
   response.redirect("/");
 });
