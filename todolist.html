@@ -81,7 +81,9 @@
                 }
                 some.textContent = `${i}`;
                 const insome = document.createElement("ul");
-                insome.textContent = `<!-- todo1 -->`
+                const tmpElmt = document.createElement('div');
+                tmpElmt.innerHTML = `<!--todo${i}-->`;
+                insome.appendChild(tmpElmt);
                 some.appendChild(insome);
                 some.id = `${i}`;
                 some.onclick = ()=>{

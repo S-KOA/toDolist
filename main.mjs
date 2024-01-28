@@ -12,7 +12,7 @@ const template = fs.readFileSync("./todolist.html", "utf-8");
 app.get("/", async (request, response) => {
   const todos = await prisma.todo.findMany();
   const html1 = template.replace(
-    `<!-- todo1 -->`,
+    `todo1`,
     todos
       .map(
         (todo) => `
@@ -25,12 +25,12 @@ app.get("/", async (request, response) => {
       )
       .join(""),
   );
-  response.send(html1);
   const html = template.replace(
-    "<!-- todos -->",
+    "<!--todo${i}-->",
     todos
       .map(
-        (todo) => `
+        (todo) => {
+          return `
           <li>
             <span>${escapeHTML(todo.title)}</span>
             <form method="post" action="/delete" class="delete-form">
@@ -38,7 +38,7 @@ app.get("/", async (request, response) => {
               <button type="submit">削除</button>
             </form>
           </li>
-        `,
+        `},
       )
       .join(""),
   );
