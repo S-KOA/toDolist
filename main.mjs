@@ -26,19 +26,22 @@ app.get("/", async (request, response) => {
       .join(""),
   );
   const html = template.replace(
-    "<!--todo${i}-->",
+    /(<!--todo)\d(-->)/,
     todos
       .map(
         (todo) => {
-          return `
-          <li>
-            <span>${escapeHTML(todo.title)}</span>
-            <form method="post" action="/delete" class="delete-form">
-              <input type="hidden" name="id" value="${todo.id}" />
-              <button type="submit">削除</button>
-            </form>
-          </li>
-        `},
+            if(todo.date === Number("$2")){
+              return `
+              <li>
+                <span>${escapeHTML(todo.title)}</span>
+                <form method="post" action="/delete" class="delete-form">
+                  <input type="hidden" name="id" value="${todo.id}" />
+                  <button type="submit">削除</button>
+                </form>
+              </li>
+            `
+            }
+          },
       )
       .join(""),
   );
