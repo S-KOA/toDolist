@@ -11,6 +11,21 @@ const prisma = new PrismaClient();
 const template = fs.readFileSync("./todolist.html", "utf-8");
 app.get("/", async (request, response) => {
   const todos = await prisma.todo.findMany();
+  const html1 = template.replace(
+    `<!-- todo1 -->`,
+    todos
+      .map(
+        (todo) => `
+        <li>
+          <span>${escapeHTML(todo.title)}</span>
+          <button type="edit">編集</button>
+          <button type="delete">削除</button>
+        </li>
+        `,
+      )
+      .join(""),
+  );
+  response.send(html1);
   const html = template.replace(
     "<!-- todos -->",
     todos
