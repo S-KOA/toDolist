@@ -8,9 +8,32 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static("static"));
 const prisma = new PrismaClient();
 
+const todos = await prisma.todo.findMany();
+
+function replacer(match, p1, p2, p3, offset, string, groups) {
+  const replacement = todos.map(
+        (todo) => {
+            if(todo.date === 10*Number(p2)+Number(p3)){
+              return `
+              <li>
+                <span>${escapeHTML(todo.title)}</span>
+                <form method="post" action="/delete" class="delete-form">
+                  <input type="hidden" name="id" value="${todo.id}" />
+                  <button type="submit">削除</button>
+                </form>
+              </li>
+            `
+            }else{
+              console.log(p2);
+            }
+          },
+      )
+      .join("");
+  return replacement;
+}
+
 const template = fs.readFileSync("./todolist.html", "utf-8");
 app.get("/", async (request, response) => {
-  const todos = await prisma.todo.findMany();
   const html1 = template.replace(
     `todo1`,
     todos
@@ -26,24 +49,7 @@ app.get("/", async (request, response) => {
       .join(""),
   );
   const html = template.replace(
-    /(<!--todo)\d(-->)/,
-    todos
-      .map(
-        (todo) => {
-            if(todo.date === Number("$2")){
-              return `
-              <li>
-                <span>${escapeHTML(todo.title)}</span>
-                <form method="post" action="/delete" class="delete-form">
-                  <input type="hidden" name="id" value="${todo.id}" />
-                  <button type="submit">削除</button>
-                </form>
-              </li>
-            `
-            }
-          },
-      )
-      .join(""),
+    /(<!--todo)(\d)(\d)(-->)/g,replacer
   );
   response.send(html);
 });
