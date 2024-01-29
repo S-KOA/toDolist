@@ -10,11 +10,13 @@
       <!-- todos -->
     </ul>
     <form action="/create" method="post">
-      <input type="text" name="title" />
-      <button type="submit">追加</button>
+      <input id ="todo-input" type="text" name="title" />
+      <input id="selected-day" type="text" name="date" value="予定日を選んでください。"></input>
+      <button type="submit" id = "add-button" disabled>追加</button>
     </form>
     <script src="/script.js"></script>
     <h2>日付をクリックして予定を追加する日を選択</h2>
+    <h3 id = "month1"></h3>
     <table class="calendar">
         <thead>
           <tr>
@@ -28,9 +30,22 @@
           </tr>
         </thead>
         <tbody id="datelist"></tbody>
-        <p id="selected-day">予定を追加する日を選んでください。</p>
-        <input id="todo-input" />
-        <button id="add-button" disabled>追加</button>
+    </table>
+    <br>
+    <h3 id = "month2"></h3>
+    <table class="calendar">
+        <thead>
+          <tr>
+            <th class="sun">Sun</th>
+            <th>Mon</th>
+            <th>Tue</th>
+            <th>Wed</th>
+            <th>Thu</th>
+            <th>Fri</th>
+            <th class="sat">Sat</th>
+          </tr>
+        </thead>
+        <tbody id="datelist2"></tbody>
     </table>
     <script>
         const today = new Date();
@@ -182,6 +197,7 @@
                 some.id = `${i}`;
                 some.onclick = ()=>{
                     seleday.textContent = `${month + 1}月${some.id}日に予定を追加します。`;
+                    seleday.value = some.id;
                     s = some.id;
                 };
                 week.appendChild(some);
@@ -194,33 +210,15 @@
 
 const todoInput = document.getElementById("todo-input");
 const addButton = document.getElementById("add-button");
+seleday.disabled = true;
+addButton.onclick = () =>{
+    seleday.disabled = false;
+}
 
 todoInput.oninput = () => {
   addButton.disabled = (todoInput.value === "" || s === "");
 };
 
-addButton.onclick = () => {
-    const todoList = document.getElementById(s);
-    const todoItem = document.createElement("li");
-    const todoText = document.createElement("span");
-    const editButton = document.createElement("button");
-    const deleteButton = document.createElement("button");
-    todoText.textContent = todoInput.value;
-    todoInput.value = "";
-    editButton.textContent = "編集";
-    editButton.onclick = () => {
-        const input = prompt("新しい内容を入力してください。");
-        if (input !== "" && input !== null) todoText.textContent = input;
-    };
-    deleteButton.textContent = "削除";
-    deleteButton.onclick = () => {
-        todoList.removeChild(todoItem);
-    };
-    todoItem.appendChild(todoText);
-    todoItem.appendChild(editButton);
-    todoItem.appendChild(deleteButton);
-    todoList.appendChild(todoItem);
-};
     </script>
     <style>
         .calendar {

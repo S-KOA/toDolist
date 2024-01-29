@@ -8,7 +8,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static("static"));
 const prisma = new PrismaClient();
 
-const todos = await prisma.todo.findMany();
+let todos = await prisma.todo.findMany();
 
 function replacer(match, p1, p2, p3, offset, string, groups) {
   const replacement = todos.map(
@@ -34,20 +34,7 @@ function replacer(match, p1, p2, p3, offset, string, groups) {
 
 const template = fs.readFileSync("./todolist.html", "utf-8");
 app.get("/", async (request, response) => {
-  const html1 = template.replace(
-    `todo1`,
-    todos
-      .map(
-        (todo) => `
-        <li>
-          <span>${escapeHTML(todo.title)}</span>
-          <button type="edit">編集</button>
-          <button type="delete">削除</button>
-        </li>
-        `,
-      )
-      .join(""),
-  );
+  todos = await prisma.todo.findMany();
   const html = template.replace(
     /(<!--todo)(\d)(\d)(-->)/g,replacer
   );
@@ -56,7 +43,7 @@ app.get("/", async (request, response) => {
 
 app.post("/create", async (request, response) => {
   await prisma.todo.create({
-    data: { title: request.body.title,date :0},
+    data: { title: request.body.title,date :Number(request.body.date)},
   });
   response.redirect("/");
 });
