@@ -10,10 +10,10 @@ const prisma = new PrismaClient();
 
 let todos = await prisma.todo.findMany();
 
-function replacer(match, p1, p2, p3, offset, string, groups) {
+function replacer(match, p1, p2, p3,p4, offset, string, groups) {
   const replacement = todos.map(
         (todo) => {
-            if(todo.date === 10*Number(p2)+Number(p3)){
+            if(todo.date === 100*Number(p2)+10*Number(p3)+Number(p4)){
               return `
               <li>
                 <span>${escapeHTML(todo.title)}</span>
@@ -23,8 +23,6 @@ function replacer(match, p1, p2, p3, offset, string, groups) {
                 </form>
               </li>
             `
-            }else{
-              console.log(p2);
             }
           },
       )
@@ -36,7 +34,7 @@ const template = fs.readFileSync("./todolist.html", "utf-8");
 app.get("/", async (request, response) => {
   todos = await prisma.todo.findMany();
   const html = template.replace(
-    /(<!--todo)(\d)(\d)(-->)/g,replacer
+    /(<!--todo)(\d)(\d)(\d)(-->)/g,replacer
   );
   response.send(html);
 });

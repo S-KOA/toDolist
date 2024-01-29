@@ -6,16 +6,13 @@
   </head>
   <body>
     <h1>ToDoリスト</h1>
-    <ul>
-      <!-- todos -->
-    </ul>
     <form action="/create" method="post">
       <input id ="todo-input" type="text" name="title" />
-      <input id="selected-day" type="text" name="date" value="予定日を選んでください。"></input>
-      <button type="submit" id = "add-button" disabled>追加</button>
+      <input id = "sday" type="text" name="date" value="カレンダーをclick"></input>
+      <button type="submit" id = "add-button">追加</button>
     </form>
-    <script src="/script.js"></script>
     <h2>日付をクリックして予定を追加する日を選択</h2>
+    <p id = "selected-day">予定日を選んでください。</p>
     <h3 id = "month1"></h3>
     <table class="calendar">
         <thead>
@@ -53,13 +50,23 @@
         const month = today.getMonth();
         const day = today.getDate();
         const startDay = new Date(year, month, 1).getDay();
+        const startDay2 = new Date(year, month +1, 1).getDay();
         const startDate = new Date(year, month, 1);
+        const startDate2 = new Date(year, month + 1, 1);
         const endDate = new Date(year, month + 1, 0);
+        const endDate2 = new Date(year, month + 2, 0);
         const ndays = (endDate - startDate)/(24*3600*1000) + 1;
+        const ndays2 = (endDate2 - startDate2)/(24*3600*1000) + 1;
         const date = document.getElementById("datelist");
+        const date2 = document.getElementById("datelist2");
         const seleday = document.getElementById("selected-day");
-        let s = "";
+        const sday = document.getElementById("sday");
+        const month1 = document.getElementById("month1");
+        const month2 = document.getElementById("month2");
+        month1.textContent = `${month + 1}月`
+        month2.textContent = `${month + 2}月`
 
+        let s = "";
         for (let i = 1;i <= ndays;) {
             const week = document.createElement("tr");
             for (let counter = 0; counter < 7;counter += 1){
@@ -99,97 +106,97 @@
                 const tmpElmt = document.createElement('div');
                 switch(i){  //アホくさい方法になったが、動けばなんでもいいと思った
                     case 1:
-                        tmpElmt.innerHTML = `<!--todo01-->`;
+                        tmpElmt.innerHTML = `<!--todo001-->`;
                         break;
                     case 2:
-                        tmpElmt.innerHTML = `<!--todo02-->`;
+                        tmpElmt.innerHTML = `<!--todo002-->`;
                         break;
                     case 3:
-                        tmpElmt.innerHTML = `<!--todo03-->`;
+                        tmpElmt.innerHTML = `<!--todo003-->`;
                         break;
                     case 4:
-                        tmpElmt.innerHTML = `<!--todo04-->`;
+                        tmpElmt.innerHTML = `<!--todo004-->`;
                         break;
                     case 5:
-                        tmpElmt.innerHTML = `<!--todo05-->`;
+                        tmpElmt.innerHTML = `<!--todo005-->`;
                         break;
                     case 6:
-                        tmpElmt.innerHTML = `<!--todo06-->`;
+                        tmpElmt.innerHTML = `<!--todo006-->`;
                         break;
                     case 7:
-                        tmpElmt.innerHTML = `<!--todo07-->`;
+                        tmpElmt.innerHTML = `<!--todo007-->`;
                         break;
                     case 8:
-                        tmpElmt.innerHTML = `<!--todo08-->`;
+                        tmpElmt.innerHTML = `<!--todo008-->`;
                         break;
                     case 9:
-                        tmpElmt.innerHTML = `<!--todo09-->`;
+                        tmpElmt.innerHTML = `<!--todo009-->`;
                         break;
                     case 10:
-                        tmpElmt.innerHTML = `<!--todo10-->`;
+                        tmpElmt.innerHTML = `<!--todo010-->`;
                         break;
                     case 11:
-                        tmpElmt.innerHTML = `<!--todo11-->`;
+                        tmpElmt.innerHTML = `<!--todo011-->`;
                         break;
                     case 12:
-                        tmpElmt.innerHTML = `<!--todo12-->`;
+                        tmpElmt.innerHTML = `<!--todo012-->`;
                         break;
                     case 13:
-                        tmpElmt.innerHTML = `<!--todo13-->`;
+                        tmpElmt.innerHTML = `<!--todo013-->`;
                         break;
                     case 14:
-                        tmpElmt.innerHTML = `<!--todo14-->`;
+                        tmpElmt.innerHTML = `<!--todo014-->`;
                         break;
                     case 15:
-                        tmpElmt.innerHTML = `<!--todo15-->`;
+                        tmpElmt.innerHTML = `<!--todo015-->`;
                         break;
                     case 16:
-                        tmpElmt.innerHTML = `<!--todo16-->`;
+                        tmpElmt.innerHTML = `<!--todo016-->`;
                         break;
                     case 17:
-                        tmpElmt.innerHTML = `<!--todo17-->`;
+                        tmpElmt.innerHTML = `<!--todo017-->`;
                         break;
                     case 18:
-                        tmpElmt.innerHTML = `<!--todo18-->`;
+                        tmpElmt.innerHTML = `<!--todo018-->`;
                         break;
                     case 19:
-                        tmpElmt.innerHTML = `<!--todo19-->`;
+                        tmpElmt.innerHTML = `<!--todo019-->`;
                         break;
                     case 20:
-                        tmpElmt.innerHTML = `<!--todo20-->`;
+                        tmpElmt.innerHTML = `<!--todo020-->`;
                         break;
                     case 21:
-                        tmpElmt.innerHTML = `<!--todo21-->`;
+                        tmpElmt.innerHTML = `<!--todo021-->`;
                         break;
                     case 22:
-                        tmpElmt.innerHTML = `<!--todo22-->`;
+                        tmpElmt.innerHTML = `<!--todo022-->`;
                         break;
                     case 23:
-                        tmpElmt.innerHTML = `<!--todo23-->`;
+                        tmpElmt.innerHTML = `<!--todo023-->`;
                         break;
                     case 24:
-                        tmpElmt.innerHTML = `<!--todo24-->`;
+                        tmpElmt.innerHTML = `<!--todo024-->`;
                         break;
                     case 25:
-                        tmpElmt.innerHTML = `<!--todo25-->`;
+                        tmpElmt.innerHTML = `<!--todo025-->`;
                         break;
                     case 26:
-                        tmpElmt.innerHTML = `<!--todo26-->`;
+                        tmpElmt.innerHTML = `<!--todo026-->`;
                         break;
                     case 27:
-                        tmpElmt.innerHTML = `<!--todo27-->`;
+                        tmpElmt.innerHTML = `<!--todo027-->`;
                         break;
                     case 28:
-                        tmpElmt.innerHTML = `<!--todo28-->`;
+                        tmpElmt.innerHTML = `<!--todo028-->`;
                         break;
                     case 29:
-                        tmpElmt.innerHTML = `<!--todo29-->`;
+                        tmpElmt.innerHTML = `<!--todo029-->`;
                         break;
                     case 30:
-                        tmpElmt.innerHTML = `<!--todo30-->`;
+                        tmpElmt.innerHTML = `<!--todo030-->`;
                         break;
                     case 31:
-                        tmpElmt.innerHTML = `<!--todo31-->`;
+                        tmpElmt.innerHTML = `<!--todo031-->`;
                         break;
                 }
                 insome.appendChild(tmpElmt);
@@ -197,7 +204,7 @@
                 some.id = `${i}`;
                 some.onclick = ()=>{
                     seleday.textContent = `${month + 1}月${some.id}日に予定を追加します。`;
-                    seleday.value = some.id;
+                    sday.value = some.id;
                     s = some.id;
                 };
                 week.appendChild(some);
@@ -208,17 +215,165 @@
         }
         const container = {};
 
+        for (let i = 1;i <= ndays2;) {
+            const week = document.createElement("tr");
+            for (let counter = 0; counter < 7;counter += 1){
+                if(i === 1){
+                    for (let j = 0; j< startDay2; j+=1){
+                        const none = document.createElement("td");
+                        none.className = 'mute';
+                        none.textContent = '';
+                        if(counter === 0){
+                            none.className = 'sun';
+                        }
+                        week.appendChild(none);
+                        counter += 1;
+                    }
+                }
+                if(ndays2 < i){
+                    while(counter < 7){
+                        const none = document.createElement("td");
+                        none.className = 'mute';
+                        none.textContent = '';
+                        week.appendChild(none);
+                        counter += 1;
+                    }
+                    break;
+                }
+                const some = document.createElement("td");
+                if(counter === 0){
+                    some.className = 'sun';
+                } else if(counter === 6){
+                    some.className = 'sat';
+                }
+                some.textContent = `${i}`;
+                const insome = document.createElement("ul");
+                const tmpElmt = document.createElement('div');
+                switch(i){  //アホくさい方法になったが、動けばなんでもいいと思ったその2
+                    case 1:
+                        tmpElmt.innerHTML = `<!--todo101-->`;
+                        break;
+                    case 2:
+                        tmpElmt.innerHTML = `<!--todo102-->`;
+                        break;
+                    case 3:
+                        tmpElmt.innerHTML = `<!--todo103-->`;
+                        break;
+                    case 4:
+                        tmpElmt.innerHTML = `<!--todo104-->`;
+                        break;
+                    case 5:
+                        tmpElmt.innerHTML = `<!--todo105-->`;
+                        break;
+                    case 6:
+                        tmpElmt.innerHTML = `<!--todo106-->`;
+                        break;
+                    case 7:
+                        tmpElmt.innerHTML = `<!--todo107-->`;
+                        break;
+                    case 8:
+                        tmpElmt.innerHTML = `<!--todo108-->`;
+                        break;
+                    case 9:
+                        tmpElmt.innerHTML = `<!--todo109-->`;
+                        break;
+                    case 10:
+                        tmpElmt.innerHTML = `<!--todo110-->`;
+                        break;
+                    case 11:
+                        tmpElmt.innerHTML = `<!--todo111-->`;
+                        break;
+                    case 12:
+                        tmpElmt.innerHTML = `<!--todo112-->`;
+                        break;
+                    case 13:
+                        tmpElmt.innerHTML = `<!--todo113-->`;
+                        break;
+                    case 14:
+                        tmpElmt.innerHTML = `<!--todo114-->`;
+                        break;
+                    case 15:
+                        tmpElmt.innerHTML = `<!--todo115-->`;
+                        break;
+                    case 16:
+                        tmpElmt.innerHTML = `<!--todo116-->`;
+                        break;
+                    case 17:
+                        tmpElmt.innerHTML = `<!--todo117-->`;
+                        break;
+                    case 18:
+                        tmpElmt.innerHTML = `<!--todo118-->`;
+                        break;
+                    case 19:
+                        tmpElmt.innerHTML = `<!--todo119-->`;
+                        break;
+                    case 20:
+                        tmpElmt.innerHTML = `<!--todo120-->`;
+                        break;
+                    case 21:
+                        tmpElmt.innerHTML = `<!--todo121-->`;
+                        break;
+                    case 22:
+                        tmpElmt.innerHTML = `<!--todo122-->`;
+                        break;
+                    case 23:
+                        tmpElmt.innerHTML = `<!--todo123-->`;
+                        break;
+                    case 24:
+                        tmpElmt.innerHTML = `<!--todo124-->`;
+                        break;
+                    case 25:
+                        tmpElmt.innerHTML = `<!--todo125-->`;
+                        break;
+                    case 26:
+                        tmpElmt.innerHTML = `<!--todo126-->`;
+                        break;
+                    case 27:
+                        tmpElmt.innerHTML = `<!--todo127-->`;
+                        break;
+                    case 28:
+                        tmpElmt.innerHTML = `<!--todo128-->`;
+                        break;
+                    case 29:
+                        tmpElmt.innerHTML = `<!--todo129-->`;
+                        break;
+                    case 30:
+                        tmpElmt.innerHTML = `<!--todo130-->`;
+                        break;
+                    case 31:
+                        tmpElmt.innerHTML = `<!--todo131-->`;
+                        break;
+                }
+                insome.appendChild(tmpElmt);
+                some.appendChild(insome);
+                some.id = `${i}`;
+                some.onclick = ()=>{
+                    seleday.textContent = `${month + 2}月${some.id}日に予定を追加します。`;
+                    sday.value = `${Number(some.id) + 100}`;
+                    s = some.id;
+                };
+                week.appendChild(some);
+                i += 1;
+
+            }
+            date2.appendChild(week);
+        }
+
 const todoInput = document.getElementById("todo-input");
 const addButton = document.getElementById("add-button");
-seleday.disabled = true;
+sday.disabled = true;
 addButton.onclick = () =>{
-    seleday.disabled = false;
+    sday.disabled = false;
 }
+const deleteForms = document.querySelectorAll(".delete-form");
 
-todoInput.oninput = () => {
-  addButton.disabled = (todoInput.value === "" || s === "");
-};
-
+for (const deleteForm of deleteForms) {
+  deleteForm.onsubmit = (e) => {
+    if (!window.confirm("本当に削除しますか？")) {
+      e.preventDefault();
+    }
+  };
+}
     </script>
     <style>
         .calendar {
@@ -249,6 +404,9 @@ todoInput.oninput = () => {
         }
         .calendar .toDAY {
             background-color: #7d7d7d;
+        }
+        .delete-form {
+            display: inline;
         }
     </style>
   </body>
