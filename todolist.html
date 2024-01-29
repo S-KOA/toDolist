@@ -9,7 +9,7 @@
     <form action="/create" method="post">
       <input id ="todo-input" type="text" name="title" />
       <input id = "sday" type="text" name="date" value="カレンダーをclick"></input>
-      <button type="submit" id = "add-button">追加</button>
+      <button type="submit" id = "add-button" disabled>追加</button>
     </form>
     <h2>日付をクリックして予定を追加する日を選択</h2>
     <p id = "selected-day">予定日を選んでください。</p>
@@ -63,6 +63,8 @@
         const sday = document.getElementById("sday");
         const month1 = document.getElementById("month1");
         const month2 = document.getElementById("month2");
+        const todoInput = document.getElementById("todo-input");
+        const addButton = document.getElementById("add-button");
         month1.textContent = `${month + 1}月`
         month2.textContent = `${month + 2}月`
 
@@ -204,8 +206,11 @@
                 some.id = `${i}`;
                 some.onclick = ()=>{
                     seleday.textContent = `${month + 1}月${some.id}日に予定を追加します。`;
-                    sday.value = some.id;
+                    sday.value = `${Number(some.id) + (month + 1)*100}`;
                     s = some.id;
+                    if(todoInput.value != ""){
+                        addButton.disabled = false;
+                    }
                 };
                 week.appendChild(some);
                 i += 1;
@@ -349,8 +354,11 @@
                 some.id = `${i}`;
                 some.onclick = ()=>{
                     seleday.textContent = `${month + 2}月${some.id}日に予定を追加します。`;
-                    sday.value = `${Number(some.id) + 100}`;
+                    sday.value = `${Number(some.id) + (month + 2)*100}`;
                     s = some.id;
+                    if(todoInput.value != ""){
+                        addButton.disabled = false;
+                    }
                 };
                 week.appendChild(some);
                 i += 1;
@@ -359,12 +367,15 @@
             date2.appendChild(week);
         }
 
-const todoInput = document.getElementById("todo-input");
-const addButton = document.getElementById("add-button");
+todoInput.oninput = () => {
+  addButton.disabled = (todoInput.value === "" || s === "");
+};
+
 sday.disabled = true;
 addButton.onclick = () =>{
     sday.disabled = false;
 }
+
 const deleteForms = document.querySelectorAll(".delete-form");
 
 for (const deleteForm of deleteForms) {

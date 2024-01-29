@@ -6,6 +6,8 @@ import escapeHTML from "escape-html";
 const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("static"));
+const today = new Date();
+const month = today.getMonth();
 const prisma = new PrismaClient();
 
 let todos = await prisma.todo.findMany();
@@ -13,7 +15,7 @@ let todos = await prisma.todo.findMany();
 function replacer(match, p1, p2, p3,p4, offset, string, groups) {
   const replacement = todos.map(
         (todo) => {
-            if(todo.date === 100*Number(p2)+10*Number(p3)+Number(p4)){
+            if(todo.date - 100*(month + 1) === 100*Number(p2)+10*Number(p3)+Number(p4)){
               return `
               <li>
                 <span>${escapeHTML(todo.title)}</span>
